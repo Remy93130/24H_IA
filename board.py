@@ -47,6 +47,17 @@ class Cell(object):
 
 	""" Ajouter spécificités des cases ici"""
 
+class Parcel(object):
+	def __init__(self,blocked):
+		self.cells = set()
+		self.blocked = blocked
+
+	def add(self,cell):
+		self.cells.add(cell)
+		
+	def __contains__(self, item):
+		return item in self.cells
+	
 
 class Path(object):
 	def __init__(self, pathList):
@@ -77,7 +88,7 @@ class Path(object):
 
 
 class Board(object):
-	def __init__(self, height, width):
+	def __init__(self, height, width, parcels):
 		print(type(height), type(width))
 		self.height = height
 		self.width = width
@@ -85,13 +96,21 @@ class Board(object):
 
 		self._initBoard()
 
-	def _initBoard(self):
+	def _initBoard(self,parcels):
 		for row in range(self.height):
 			for column in range(self.width):
 				self.board[Position(row, column)] = Cell(Position(row, column))
-
-	def updateBoard(self, data):
-		pass
+				
+	def updateBoard(self, parcels):
+		for parcel in parcels :
+			p = Parcel('blocked' in parcel)
+			parcel.discard('blocked')
+			for cell in parcel :
+				p.add(self.board[Position(cell[0],cell[1])])
+				self.board[Position(cell[0],cell[1])].setParcelle(p)
+				
+	def updateCell(self,position,player):
+		self.board[position].setCoffee(player)
 
 	def __getitem__(self, item):
 		return self.board[item]
