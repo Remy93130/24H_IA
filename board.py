@@ -1,3 +1,4 @@
+LETTERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
 
 
 class Position(object):
@@ -8,6 +9,13 @@ class Position(object):
 
 	def get(self):
 		return self.pos
+
+	def export(self):
+		return str(self.row + 1) + ":" + LETTERS[self.column]
+
+	@staticmethod
+	def create(s):
+		x, y = s.split(":")
 
 	def __str__(self):
 		return "({}, {})".format(self.row, self.column)
@@ -22,13 +30,17 @@ class Position(object):
 		return self.row == other.row and self.column == other.column
 
 
-class Box(object):
-	def __init__(self, empty=False, *args):
-		self.empty = empty
-		self.args = args
+class Cell(object):
+	def __init__(self, position, parcelle=None):
+		self.position = position
+		self.parcelle = parcelle
+		self.coffee = None
 
-	def isEmpty(self):
-		return self.empty
+	def setParcelle(self, value):
+		self.parcelle = value
+
+	def setCoffee(self, player):
+		self.coffee = player
 
 	def __str__(self):
 		return "X"
@@ -76,7 +88,7 @@ class Board(object):
 	def _initBoard(self):
 		for row in range(self.height):
 			for column in range(self.width):
-				self.board[Position(row, column)] = Box()
+				self.board[Position(row, column)] = Cell(Position(row, column))
 
 	def updateBoard(self, data):
 		pass
