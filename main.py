@@ -11,6 +11,7 @@ ILLEGAL_US2 = "91"
 TO_US_TO_PLAY = "10"
 NORMAL_OTHER = "20"
 ILLEGAL_OTHER = "22"
+START = "01"
 ENDED = "Fin de la partie"
 
 
@@ -38,7 +39,7 @@ class Main(object):
 
 		while True:
 			rcvd = self.net.receive()
-			print("$" + rcvd)
+			print("$" + rcvd, end=" - ")
 			choose = None
 
 			if ILLEGAL_US in rcvd or ILLEGAL_US2 in rcvd:
@@ -47,12 +48,16 @@ class Main(object):
 			elif ILLEGAL_OTHER in rcvd:
 				self.game.turn(illegalOther=True)
 				continue
+			elif NORMAL_OTHER in rcvd:
+				self.game.turn(rcvd=rcvd, other=True)
 			elif ENDED in rcvd:
 				break
-			elif TO_US_TO_PLAY in rcvd:
-				choose = self.game.turn(rcvd=rcvd, first=first)
+			elif START in rcvd:
+				self.game.turn(rcvd=rcvd, first=first)
 				first = False
-			elif
+				continue
+			else:
+				choose = self.game.turn(rcvd=rcvd)
 
 			print(choose)
 			self.net.send(choose)

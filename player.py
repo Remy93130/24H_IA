@@ -11,12 +11,6 @@ class Player(object):
 		self.previous = None
 		self.score = 0
 
-	def setPrevious(self, value):
-		self.previous = value
-
-	def getPrevious(self):
-		return self.previous
-
 	def addToScore(self, toAdd):
 		self.score += toAdd
 

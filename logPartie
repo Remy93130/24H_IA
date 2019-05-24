@@ -1,0 +1,62 @@
+Début de partie.
+
+$01-la partie va commencer
+MAP=3:9:3:1:9:3:1:9:3:9|2:8:6:4:12:6:4:12:2:8|6:12:35:41:3:9:35:41:6:12|75:11:38:44:6:12:38:44:11:75|74:10:11:75:3:9:75:11:10:74|74:10:14:78:6:12:78:14:10:74|74:14:47:7:5:5:
+13:47:14:74|74:7:9:39:37:37:45:3:13:74|66:73:14:7:9:3:13:14:67:72|70:68:69:77:14:14:71:69:68:76| - D:1
+$91-demande non valide - $20:coup adversaire:D:7 - G:1
+$10-A vous de jouer  - G:3
+$21:coup joue illegal - $91-demande non valide - $20:coup adversaire:D:1 - G:4
+$10-A vous de jouer  - D:7
+$21:coup joue illegal - $91-demande non valide - $20:coup adversaire:A:1 - A:5
+$10-A vous de jouer  - H:8
+$21:coup joue illegal - $91-demande non valide - $20:coup adversaire:F:1 - J:4
+$10-A vous de jouer  - C:9
+$21:coup joue illegal - $91-demande non valide - $20:coup adversaire:C:1 - G:10
+$10-A vous de jouer  - H:4
+$21:coup joue illegal - $91-demande non valide - $20:coup adversaire:B:1 - I:1
+$10-A vous de jouer  - I:10
+$91-demande non valide - $20:coup adversaire:I:4 - B:8
+$10-A vous de jouer  - E:5
+$21:coup joue illegal - $91-demande non valide - $20:coup adversaire:B:4 - F:3
+$10-A vous de jouer  - J:1
+$21:coup joue illegal - $91-demande non valide - $20:coup adversaire:B:2 - A:6
+$10-A vous de jouer  - B:10
+$21:coup joue illegal - $91-demande non valide - $20:coup adversaire:C:2 - A:4
+$10-A vous de jouer  - D:1
+$21:coup joue illegal - $91-demande non valide - $20:coup adversaire:C:5 - I:2
+$10-A vous de jouer  - B:1
+$21:coup joue illegal - $91-demande non valide - $20:coup adversaire:B:5 - J:8
+$10-A vous de jouer  - H:6
+$21:coup joue illegal - $91-demande non valide - $20:coup adversaire:B:3 - I:5
+$10-A vous de jouer  - F:7
+$21:coup joue illegal - $91-demande non valide - $20:coup adversaire:E:3 - B:8
+$10-A vous de jouer  - D:8
+$21:coup joue illegal - $91-demande non valide - $20:coup adversaire:E:1 - G:3
+$10-A vous de jouer  - J:7
+$21:coup joue illegal - $91-demande non valide - $20:coup adversaire:E:5 - I:2
+$10-A vous de jouer  - H:2
+$21:coup joue illegal - $91-demande non valide - $20:coup adversaire:E:4 - G:1
+$10-A vous de jouer  - C:2
+$21:coup joue illegal - $91-demande non valide - $20:coup adversaire:E:2 - B:3
+$10-A vous de jouer  - D:8
+$21:coup joue illegal - $91-demande non valide - $20:coup adversaire:A:2 - H:8
+$10-A vous de jouer  - A:2
+$21:coup joue illegal - $91-demande non valide - $20:coup adversaire:F:2 - B:3
+$10-A vous de jouer  - I:2
+$21:coup joue illegal - $91-demande non valide - $20:coup adversaire:F:3 - J:4
+$10-A vous de jouer  - C:10
+$21:coup joue illegal - $91-demande non valide - $20:coup adversaire:A:3 - B:1
+$10-A vous de jouer  - D:7
+$21:coup joue illegal - $91-demande non valide - $20:coup adversaire:I:3 - A:2
+$10-A vous de jouer  - G:1
+$21:coup joue illegal - $91-demande non valide - $20:coup adversaire:I:5 - C:6
+$10-A vous de jouer  - E:2
+$21:coup joue illegal - $91-demande non valide - $20:coup adversaire:F:5 - E:1
+$10-A vous de jouer  - E:5
+$21:coup joue illegal - $91-demande non valide - $20:coup adversaire:F:4 - H:5
+$10-A vous de jouer  - F:6
+$21:coup joue illegal - $91-demande non valide - $20:coup adversaire:F:7 - C:7
+$10-A vous de jouer  - A:10
+$21:coup joue illegal - $91-demande non valide - $20:coup adversaire:B:7 - A:2
+$10-A vous de jouer  - E:10
+$21:coup joue illegal - $88 Fin de la partie, vous avez perdu : 67/60 - Partie terminée.
