@@ -44,6 +44,18 @@ class Cell(object):
 
 	def __str__(self):
 		return "X"
+		
+	def isBlocked(self):
+		return self.parcelle.blocked or self.coffee
+		
+	def i(self):
+		return position.row
+		
+	def j(self):
+		return position.column
+		
+	def sameParcel(self,cell):
+		return self.parcelle == cell.parcelle 
 
 	""" Ajouter spécificités des cases ici"""
 
@@ -134,6 +146,34 @@ class Board(object):
 			for c in range(self.width):
 				p = Position(r, c)
 				yield p, self[p]
+				
+	def availableCells(self,previouses):
+		available = set()
+		if not previouses[0]: #premier tour
+			for i in self.board.values():
+				if not i.isBlocked :
+					available.add(i)
+			return available
+		current = previouses[0]
+		previous = previouses[1]
+		if not previouses[1] :
+			previous = current
+		for i in range(self.width):
+			cell = self.board[Position(i,current.j())]
+			if not cell.isBlocked() and \
+			not cell.sameParcel(current) and \
+			not cell.sameParcel(previous) :
+				available.add(cell)
+		for j in range(self.width):
+			cell = self.board[Position(current.i(),j)]
+			if not cell.isBlocked() and \
+			not cell.sameParcel(current) and \
+			not cell.sameParcel(previous) :
+				available.add(cell)
+		return available
+		
+			
+				
 
 
 
