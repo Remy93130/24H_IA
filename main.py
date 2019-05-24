@@ -1,6 +1,8 @@
 import os
 import sys
 
+from network import Network
+from game import Game
 
 def main():
 	pass
