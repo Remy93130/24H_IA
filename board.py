@@ -64,19 +64,18 @@ class Path(object):
 		return False
 
 
-
-
 class Board(object):
 	def __init__(self, height, width):
+		print(type(height), type(width))
 		self.height = height
 		self.width = width
 		self.board = {}
 
-		self._initBoard(height, width)
+		self._initBoard()
 
-	def _initBoard(self, height, width):
-		for row in height:
-			for column in width:
+	def _initBoard(self):
+		for row in range(self.height):
+			for column in range(self.width):
 				self.board[Position(row, column)] = Box()
 
 	def updateBoard(self, data):

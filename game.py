@@ -1,11 +1,15 @@
+from random import choice
+
 from board import Position, Box, Path, Board
 from player import Player
-from history import History
 
+LETTERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
+NUMBERS = list(range(1, 11))
 
 class Game(object):
-	def __init__(self, height, width):
+	def __init__(self, teamName, height=10, width=10):
 		self.board = Board(height, width)
+		self.teamName = teamName
 		self.players = []
 		self.score = 0
 
@@ -21,5 +25,8 @@ class Game(object):
 	def addScore(self, added):
 		self.score += added
 
+	def turn(self, rcvd=None, first=False, illegalUs=False, illegalOther=False):
+		return self.alea()
 
-
+	def alea(self):
+		return choice(LETTERS) + ":" + str(choice(NUMBERS))

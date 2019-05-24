@@ -9,7 +9,7 @@ class Network:
 
 	def _connectTo(self):
 		try:
-			sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+			sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 			sock.connect((self.ip, self.port))
 			return sock
 		except Exception as e:
