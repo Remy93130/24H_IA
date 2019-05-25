@@ -255,9 +255,7 @@ class IA(object):
 		
 	def choice(self):
 		self.getWhereMore()
-		print(board.strWithCells(self.available))
 		self.getBiggest()
-		print(board.strWithCells(self.available))
 		
 		return self.alea()
 	
@@ -341,3 +339,48 @@ def parseMsg(msg):
 		parcels.append(parcel)
 
 	return parcels
+
+
+# board = Board(10, 10)
+# board.updateBoard('3:9:71:69:65:65:65:65:65:73|2:8:3:9:70:68:64:64:64:72|6:12:2:8:3:9:70:68:64:72|11:11:6:12:6:12:3:9:70:76|10:10:11:11:67:73:6:12:3:9|14:14:10:10:70:76:7:13:6:12|3:9:14:14:11:7:13:3:9:75|2:8:7:13:14:3:9:6:12:78|6:12:3:1:9:6:12:35:33:41|71:77:6:4:12:39:37:36:36:44|')
+
+# player1 = Player()
+# player2 = Player()
+
+# moves = [
+# 	(
+# 		player1,
+# 		Position(7, 4)
+# 	),
+# 	(
+# 		player2,
+# 		Position(7, 1)
+# 	),
+# 	(
+# 		player1,
+# 		Position(0, 1)
+# 	),
+# 	(
+# 		player2,
+# 		Position(5, 1)
+# 	),
+# 	(
+# 		player1,
+# 		Position(8, 1)
+# 	),
+# 	(
+# 		player2,
+# 		Position(2, 1)
+# 	)
+# ]
+
+# previous = [None, None, None]
+
+# for move in moves :
+# 	board.updateCell(move[1], move[0])
+# 	previous.append(board[move[1]])
+
+# print(previous)
+
+# ia = IA(board, previous, player1)
+# print(ia.choice())
