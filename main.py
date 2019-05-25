@@ -6,9 +6,14 @@ from game import Game
 
 TEAM_NAME = "ascii_p<array>"
 
-ILLEGAL_US = "joué illégal"
-ILLEGAL_OTHER = "adversaire illegal"
-ENDED = "Terminée"
+ILLEGAL_US = "21"
+ILLEGAL_US2 = "91"
+TO_US_TO_PLAY = "10"
+NORMAL_OTHER = "20"
+ILLEGAL_OTHER = "22"
+START = "01"
+ENDED = "Fin de la partie"
+
 
 class Main(object):
 	def __init__(self, ip, port):
@@ -23,25 +28,36 @@ class Main(object):
 		self.ip = ip
 
 		self.net = Network(self.ip, self.port)
-		self.game = Game(self.net.sendFirstMessage(TEAM_NAME))
+		toPars = self.net.sendFirstMessage(TEAM_NAME)
+		with open("chaine.txt", "w") as w:
+			w.write(toPars)
+
+		self.game = Game(toPars)
 
 	def run(self):
 		first = True
 
 		while True:
 			rcvd = self.net.receive()
-			print("$" + rcvd)
+			print("$" + rcvd, end=" - ")
 			choose = None
 
-			if ILLEGAL_US in rcvd:
-				choose = self.game.turn(illegalUs=True)
+			if ILLEGAL_US in rcvd or ILLEGAL_US2 in rcvd:
+				self.game.turn(illegalUs=True)
+				continue
 			elif ILLEGAL_OTHER in rcvd:
-				choose = self.game.turn(illegalOther=True)
+				self.game.turn(illegalOther=True)
+				continue
+			elif NORMAL_OTHER in rcvd:
+				self.game.turn(rcvd=rcvd, other=True)
 			elif ENDED in rcvd:
 				break
-			else:
-				choose = self.game.turn(rcvd=rcvd, first=first)
+			elif START in rcvd:
+				self.game.turn(rcvd=rcvd, first=first)
 				first = False
+				continue
+			else:
+				choose = self.game.turn(rcvd=rcvd)
 
 			print(choose)
 			self.net.send(choose)
