@@ -1,4 +1,4 @@
-import test
+from player import Player
 
 LETTERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
 
@@ -45,7 +45,7 @@ class Cell(object):
 		self.coffee = player
 
 	def __str__(self):
-		return "X"
+		return self.position.__str__()
 		
 	def __repr__(self):
 		return self.position.__str__()
@@ -60,7 +60,14 @@ class Cell(object):
 		return self.position.column
 		
 	def sameParcel(self,cell):
-		return self.parcelle == cell.parcelle 
+		return self.parcelle == cell.parcelle
+		
+	def coffeeInParcel(self,player):
+		count = 0
+		for cell in self.parcelle.cells:
+			if cell.coffee == player:
+				count += 1
+		return count
 
 	""" Ajouter spécificités des cases ici"""
 
@@ -119,7 +126,8 @@ class Board(object):
 			for column in range(self.width):
 				self.board[Position(row, column)] = Cell(Position(row, column))
 				
-	def updateBoard(self, parcels):
+	def updateBoard(self, msg):
+		parcels = parseMsg(msg)
 		for parcel in parcels :
 			p = Parcel('blocked' in parcel)
 			parcel.discard('blocked')
@@ -164,7 +172,7 @@ class Board(object):
 			
 		return s
 	
-	def strWithAvailable(self,available):
+	def strWithCells(self,available):
 		s = ""
 
 		array = []
@@ -229,14 +237,109 @@ class Board(object):
 				available.add(cell)
 		return available
 		
-			
-board = Board(10,10)
-board.updateBoard(test.main(test.genererTab('3:9:71:69:65:65:65:65:65:73|2:8:3:9:70:68:64:64:64:72|6:12:2:8:3:9:70:68:64:72|11:11:6:12:6:12:3:9:70:76|10:10:11:11:67:73:6:12:3:9|14:14:10:10:70:76:7:13:6:12|3:9:14:14:11:7:13:3:9:75|2:8:7:13:14:3:9:6:12:78|6:12:3:1:9:6:12:35:33:41|71:77:6:4:12:39:37:36:36:44|')))
-#print(board)
-av = board.availableCells([None,None])
-print(av)
-print(board.strWithAvailable(av))
+class IA(object):
+	def __init__(self,board,previous,player):
+		self.available = board.availableCells(previous)
+		self.board = board
+		self.player = player
+		
+	def choice(self):
+		self.getWhereMore()
+		print(board.strWithCells(self.available))
+		self.getBiggest()
+		print(board.strWithCells(self.available))
+		
+		return self.alea()
+	
+	def alea(self):
+		if len(self.available) == 0: return None
+		return self.available.pop()		
+	
+	def getWhereMore(self):
+		more = {}
+		maxi = 0
+		more[0] = set()
+		for cell in self.available:
+			size = cell.coffeeInParcel(self.player)
+			if size > maxi : maxi = size
+			if size not in more: more[size] = set()
+			more[size].add(cell)
+		self.available = more[maxi]
+		
+	def getBiggest(self):
+		biggest = {}
+		maxi = 0
+		biggest[0] = set()
+		for cell in self.available:
+			size = len(cell.parcelle.cells)
+			if size > maxi : maxi = size
+			if size not in biggest: biggest[size] = set()
+			biggest[size].add(cell)
+		self.available = biggest[maxi]
+	
+		
+def parseMsg(msg):
+	
+	def second(matrix, notYet, cell, parcel) :
+		for direction in ((1, 0), (0, 1), (-1, 0), (0, -1)) :
+			moveOn = (cell[0]+direction[0], cell[1]+direction[1])
+			if moveOn in notYet :
+				if canMove(cell, matrix, direction) :
+					parcel.add(moveOn)
+					notYet.remove(moveOn)
+					second(matrix, notYet, moveOn, parcel)
 
+	def canMove(cell, matrix, direction) :
+		cell_x = cell[0]
+		cell_y = cell[1]
+		dir_x = direction[0]
+		dir_y = direction[1]
+		if dir_x == 1 : return cell_x < 9 and matrix[cell_x][cell_y][4] == '0'#bas
+		if dir_x == -1 : return cell_x > 0 and matrix[cell_x][cell_y][6] == '0' #haut
+		if dir_y == 1 : return cell_y < 9 and matrix[cell_x][cell_y][3] == '0' #droite
+		if dir_y == -1 : return cell_y > 0 and matrix[cell_x][cell_y][5] == '0' #gauche
+
+	def isUnplayable(matrix, cell) : 
+		return int(matrix[cell[0]][cell[1]][:2]) != 0
+	
+	lines = msg.split('|')
+	matrix = []
+	for line in lines:
+		matrix.append(line.split(':'))
+	for i in range(10):
+		for j in range(10):
+			matrix[i][j] = '{0:07b}'.format(int(matrix[i][j]))
+			
+	parcels = []
+
+	notYet = set()
+	for i in range(10):
+		for j in range(10):
+			notYet.add((i, j))
+
+	while notYet :
+		cell = notYet.pop()
+
+		parcel = set()
+
+		if (isUnplayable(matrix, cell)) :
+			parcel.add('blocked')
+			
+		parcel.add(cell)
+		
+		second(matrix, notYet, cell, parcel)
+		parcels.append(parcel)
+
+	return parcels
+			
+#board = Board(10,10)
+#board.updateBoard('3:9:71:69:65:65:65:65:65:73|2:8:3:9:70:68:64:64:64:72|6:12:2:8:3:9:70:68:64:72|11:11:6:12:6:12:3:9:70:76|10:10:11:11:67:73:6:12:3:9|14:14:10:10:70:76:7:13:6:12|3:9:14:14:11:7:13:3:9:75|2:8:7:13:14:3:9:6:12:78|6:12:3:1:9:6:12:35:33:41|71:77:6:4:12:39:37:36:36:44|')
+#print(board)
+#av = board.availableCells([None,None])
+#print(av)
+#print(board.strWithCells(av))
+#ia = IA(board,[None,None],Player())
+#print(ia.choice())
 
 
 
