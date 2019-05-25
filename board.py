@@ -46,13 +46,13 @@ class Position(object):
 
 
 class Cell(object):
-	def __init__(self, position, parcelle=None):
+	def __init__(self, position, parcel=None):
 		self.position = position
-		self.parcelle = parcelle
+		self.parcel = parcel
 		self.coffee = None
 
-	def setParcelle(self, value):
-		self.parcelle = value
+	def setParcel(self, value):
+		self.parcel = value
 
 	def setCoffee(self, player):
 		self.coffee = player
@@ -64,7 +64,7 @@ class Cell(object):
 		return self.position.__str__()
 
 	def isBlocked(self):
-		return self.parcelle.blocked or self.coffee
+		return self.parcel.blocked or self.coffee
 
 	def i(self):
 		return self.position.row
@@ -73,11 +73,11 @@ class Cell(object):
 		return self.position.column
 		
 	def sameParcel(self,cell):
-		return self.parcelle == cell.parcelle
+		return self.parcel == cell.parcel
 		
 	def coffeeInParcel(self,player):
 		count = 0
-		for cell in self.parcelle.cells:
+		for cell in self.parcel.cells:
 			if cell.coffee == player:
 				count += 1
 		return count
@@ -148,7 +148,7 @@ class Board(object):
 			self.parcels.add(p)
 			for cell in parcel:
 				p.add(self.board[Position(cell[0], cell[1])])
-				self.board[Position(cell[0], cell[1])].setParcelle(p)
+				self.board[Position(cell[0], cell[1])].setParcel(p)
 
 	def updateCell(self, position, player):
 		self.board[position].setCoffee(player)
@@ -288,7 +288,7 @@ class IA(object):
 		maxi = 0
 		biggest[0] = set()
 		for cell in self.available:
-			size = len(cell.parcelle.cells)
+			size = len(cell.parcel.cells)
 			if size > maxi : maxi = size
 			if size not in biggest: biggest[size] = set()
 			biggest[size].add(cell)
@@ -308,7 +308,7 @@ class IA(object):
 	def getWinningCells(self):
 		winningCells = set()
 		for cell in self.available:
-			size = len(cell.parcelle.cells)
+			size = len(cell.parcel.cells)
 			coffee = cell.coffeeInParcel(self.player)
 			if (size / 2) < coffee + 1:
 				winningCells.add(cell)
