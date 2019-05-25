@@ -1,3 +1,5 @@
+import test
+
 LETTERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
 
 
@@ -45,14 +47,17 @@ class Cell(object):
 	def __str__(self):
 		return "X"
 		
+	def __repr__(self):
+		return self.position.__str__()
+		
 	def isBlocked(self):
 		return self.parcelle.blocked or self.coffee
 		
 	def i(self):
-		return position.row
+		return self.position.row
 		
 	def j(self):
-		return position.column
+		return self.position.column
 		
 	def sameParcel(self,cell):
 		return self.parcelle == cell.parcelle 
@@ -100,15 +105,16 @@ class Path(object):
 
 
 class Board(object):
-	def __init__(self, height, width, parcels):
+	def __init__(self, height, width):
 		print(type(height), type(width))
 		self.height = height
 		self.width = width
 		self.board = {}
+		self.parcels = set()
 
 		self._initBoard()
 
-	def _initBoard(self,parcels):
+	def _initBoard(self):
 		for row in range(self.height):
 			for column in range(self.width):
 				self.board[Position(row, column)] = Cell(Position(row, column))
@@ -117,6 +123,7 @@ class Board(object):
 		for parcel in parcels :
 			p = Parcel('blocked' in parcel)
 			parcel.discard('blocked')
+			self.parcels.add(p)
 			for cell in parcel :
 				p.add(self.board[Position(cell[0],cell[1])])
 				self.board[Position(cell[0],cell[1])].setParcelle(p)
@@ -133,10 +140,60 @@ class Board(object):
 	def __str__(self):
 		s = ""
 
-		for r in range(self.height):
-			s += " ".join([str(self[Position(r, c)]) for c in range(self.width)])
-
+		array = []
+		for i in range(10):
+			array2 = []
+			for j in range(10):
+				array2.append(0)
+			array.append(array2)
+		
+		count = 0
+		for parcel in self.parcels:
+			if parcel.blocked:
+				char = chr(count+ord('A'))
+			else:
+				char = chr(count+ord('a'))
+			for cell in parcel.cells:
+				 array[cell.i()][cell.j()] = char
+			count += 1
+		
+		for line in array:
+			for e in line:
+				s += e
+			s += '\n'
+			
 		return s
+	
+	def strWithAvailable(self,available):
+		s = ""
+
+		array = []
+		for i in range(10):
+			array2 = []
+			for j in range(10):
+				array2.append(0)
+			array.append(array2)
+		
+		count = 0
+		for parcel in self.parcels:
+			if parcel.blocked:
+				char = chr(count+ord('A'))
+			else:
+				char = chr(count+ord('a'))
+			for cell in parcel.cells:
+				if cell in available:
+					 array[cell.i()][cell.j()] = '*'
+				else:
+					array[cell.i()][cell.j()] = char
+			count += 1
+		
+		for line in array:
+			for e in line:
+				s += e
+			s += '\n'
+			
+		return s
+		
 
 	def __repr__(self):
 		return self.__str__()
@@ -149,14 +206,14 @@ class Board(object):
 				
 	def availableCells(self,previouses):
 		available = set()
-		if not previouses[0]: #premier tour
+		if not previouses[-1]: #premier tour
 			for i in self.board.values():
-				if not i.isBlocked :
+				if not i.isBlocked() :
 					available.add(i)
 			return available
-		current = previouses[0]
-		previous = previouses[1]
-		if not previouses[1] :
+		current = previouses[-1]
+		previous = previouses[-2]
+		if not previouses[-2] :
 			previous = current
 		for i in range(self.width):
 			cell = self.board[Position(i,current.j())]
@@ -173,9 +230,12 @@ class Board(object):
 		return available
 		
 			
-				
-
-
+board = Board(10,10)
+board.updateBoard(test.main(test.genererTab('3:9:71:69:65:65:65:65:65:73|2:8:3:9:70:68:64:64:64:72|6:12:2:8:3:9:70:68:64:72|11:11:6:12:6:12:3:9:70:76|10:10:11:11:67:73:6:12:3:9|14:14:10:10:70:76:7:13:6:12|3:9:14:14:11:7:13:3:9:75|2:8:7:13:14:3:9:6:12:78|6:12:3:1:9:6:12:35:33:41|71:77:6:4:12:39:37:36:36:44|')))
+#print(board)
+av = board.availableCells([None,None])
+print(av)
+print(board.strWithAvailable(av))
 
 
 

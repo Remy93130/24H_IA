@@ -6,7 +6,6 @@ def genererTab(mapString):
 	for i in range(10):
 		for j in range(10):
 			matrix[i][j] = '{0:07b}'.format(int(matrix[i][j]))
-	print(matrix)
 	return matrix
 
 def main(matrix) :
@@ -54,6 +53,3 @@ def canMove(cell, matrix, direction) :
 def isUnplayable(matrix, cell) : 
 	return int(matrix[cell[0]][cell[1]][:2]) != 0
 	
-	
-arr = main(genererTab('3:9:71:69:65:65:65:65:65:73|2:8:3:9:70:68:64:64:64:72|6:12:2:8:3:9:70:68:64:72|11:11:6:12:6:12:3:9:70:76|10:10:11:11:67:73:6:12:3:9|14:14:10:10:70:76:7:13:6:12|3:9:14:14:11:7:13:3:9:75|2:8:7:13:14:3:9:6:12:78|6:12:3:1:9:6:12:35:33:41|71:77:6:4:12:39:37:36:36:44|'))
-print(arr)
