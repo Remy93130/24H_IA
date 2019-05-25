@@ -1,8 +1,10 @@
 import os
 import sys
+import socket
 
 from network import Network
 from game import Game
+from logs import logger
 
 TEAM_NAME = "ascii_p<array>"
 
@@ -38,7 +40,9 @@ class Main(object):
 		first = True
 
 		while True:
+			logger.info("Socket en écoute")
 			rcvd = self.net.receive()
+			logger.info("Socket a recu {}".format(rcvd))
 			print("$" + rcvd, end=" - ")
 			choose = None
 
@@ -50,6 +54,7 @@ class Main(object):
 				continue
 			elif NORMAL_OTHER in rcvd:
 				self.game.turn(rcvd=rcvd, other=True)
+				continue
 			elif ENDED in rcvd:
 				break
 			elif START in rcvd:
