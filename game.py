@@ -1,10 +1,11 @@
 from random import choice
 
-from board import Position, Cell, Path, Board
+from board import Position, Cell, Path, Board, IA
 from player import Player
 
 LETTERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
 NUMBERS = list(range(1, 11))
+
 
 class Game(object):
 	def __init__(self, teamName, height=10, width=10):
@@ -48,17 +49,18 @@ class Game(object):
 			return
 
 		if first and rcvd is not None:
-			self.board.updateBoard()
+			self.board.updateBoard(rcvd)
 
 		if rcvd is not None:
-			self.board
+			ia = IA(self.board, self.previous, self.player1)
+			choosen = ia.choice()
 
+			self.board.updateCell(choosen.position, self.player1)
+			self.addPrevious(choosen)
 
+			return choosen.position.export()
 
-
-
-
-		# return self.alea()
+		return self.alea()
 
 	def alea(self):
 		return choice(LETTERS) + ":" + str(choice(NUMBERS))
