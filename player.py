@@ -18,7 +18,7 @@ class Player(object):
 		return self.id
 
 	def __eq__(self, other):
-		return self.id == other.id
+		return other and self.id == other.id
 
 
 
