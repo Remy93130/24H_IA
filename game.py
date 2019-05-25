@@ -56,6 +56,7 @@ class Game(object):
 
 		if first and rcvd is not None:
 			logger.info("First")
+			rcvd = rcvd.split("MAP=")[1]
 			self.board.updateBoard(rcvd)
 
 		if rcvd is not None:
