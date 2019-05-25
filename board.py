@@ -255,7 +255,9 @@ class IA(object):
 		
 	def choice(self):
 		self.getWhereMore()
+		print(self.board.strWithCells(self.available))
 		self.getBiggest()
+		print(self.board.strWithCells(self.available))
 		
 		return self.alea()
 	
