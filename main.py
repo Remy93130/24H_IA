@@ -56,8 +56,10 @@ class Main(object):
 				self.game.turn(rcvd=rcvd, first=first)
 				first = False
 				continue
-			else:
+			elif TO_US_TO_PLAY in rcvd:
 				choose = self.game.turn(rcvd=rcvd)
+			else:
+				continue
 
 			print(choose)
 			self.net.send(choose)

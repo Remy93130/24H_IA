@@ -23,21 +23,38 @@ class Game(object):
 		self.score += added
 
 	def addPrevious(self, cell):
-		self.previous[-2] = self.previous[-1]
-		self.previous[-1] = cell
+		self.previous.append(cell)
+
+	def removeLastPrevious(self):
+		return self.previous.pop(-1)
+
+	def parseRcvdPosition(self, rcvd):
+		splited = rcvd.split(":")
+
+		return Position.create(splited[-2], splited[-1])
+
 
 	def turn(self, rcvd=None, first=False, illegalUs=False, illegalOther=False, other=False):
 		if illegalUs: # Si on a mal joué au tour d'avant
-			pass  # Enlever le coup qu'on a fait avant
+			cell = self.removeLastPrevious()
+			self.board.updateCell(cell.position, None)
+			return  # Enlever le coup qu'on a fait avant
 
 		if illegalOther:
-			pass
+			return
 
 		if other and rcvd is not None:  # Update la position de l'adversaire
-			pass
+			self.board.updateCell(self.parseRcvdPosition(rcvd), self.player2)
+			return
 
 		if first and rcvd is not None:
-			
+			self.board.updateBoard()
+
+		if rcvd is not None:
+			self.board
+
+
+
 
 
 
