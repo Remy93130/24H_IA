@@ -27,7 +27,21 @@ class Game(object):
 		self.previous[-1] = cell
 
 	def turn(self, rcvd=None, first=False, illegalUs=False, illegalOther=False, other=False):
-		return self.alea()
+		if illegalUs: # Si on a mal joué au tour d'avant
+			pass  # Enlever le coup qu'on a fait avant
+
+		if illegalOther:
+			pass
+
+		if other and rcvd is not None:  # Update la position de l'adversaire
+			pass
+
+		if first and rcvd is not None:
+			
+
+
+
+		# return self.alea()
 
 	def alea(self):
 		return choice(LETTERS) + ":" + str(choice(NUMBERS))
