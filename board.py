@@ -1,4 +1,7 @@
 from player import Player
+from logs import logger
+
+# logger.info
 
 LETTERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
 
